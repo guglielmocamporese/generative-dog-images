@@ -5,7 +5,7 @@
 import os
 import numpy as np
 import cv2
-import zipfile
+from zipfile import ZipFile
 from tqdm import tqdm
 from hyperparameters import *
 from feeder import Feeder
@@ -24,14 +24,13 @@ if __name__ == '__main__':
 	model.train(feed, epochs=EPOCHS)
 
 	# Save submission
-	z = zipfile.PyZipFile('images.zip', mode='w')
-	batch_size = 100
-	num_batches = int(10000 / batch_size)
-	for idx_batch in tqdm(range(num_batches), desc='Writing test images'):
-	    images_gen = (model.generate(num_images=batch_size, seed=idx_batch + 1) * 255).astype(np.uint8)
-	    for idx_image, image_gen in enumerate(images_gen):
-	        image_name = '{}.png'.format((idx_batch + 1) * batch_size + idx_image)
-	        cv2.imwrite(image_name, image_gen)
-	        z.write(image_name)
-	        os.remove(image_name)
-	z.close()
+	with ZipFile('images.zip', 'w') as zip:
+		batch_size = 100
+		num_batches = int(10000 / batch_size)
+		for idx_batch in tqdm(range(num_batches), desc='Writing test images'):
+		    images_gen = (model.generate(num_images=batch_size, seed=idx_batch + 1) * 255).astype(np.uint8)
+		    for idx_image, image_gen in enumerate(images_gen):
+		        image_name = '{}.png'.format((idx_batch + 1) * batch_size + idx_image)
+		        cv2.imwrite(image_name, image_gen)
+		        zip.write(image_name)
+		        os.remove(image_name)
