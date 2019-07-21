@@ -5,9 +5,11 @@
 import os
 import numpy as np
 import cv2
-from utils import parse_xml
 from tqdm import tqdm
 import math
+
+# Custom imports
+from utils import parse_xml
 
 
 ################################
@@ -50,7 +52,7 @@ class Feeder(object):
             
             # Load and preprocess image
             try:
-                image_path = os.path.join(self.image_base_folder, 'n{}-{}'.format(xml_dict['folder'], xml_dict['name']), '{}.jpg'.format(xml_dict['filename']))
+                image_path = os.path.join(self.image_base_folder, '{}.jpg'.format(xml_dict['filename']))
                 image = cv2.imread(image_path, -1)
                 image = self.preporcess_image(image, xml_dict)
                 images.append(image)
