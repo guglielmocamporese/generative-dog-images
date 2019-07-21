@@ -2,7 +2,7 @@
 # Input / output parameters
 ################################
 
-IMAGES_BASE_FOLDER = './Images'
+IMAGES_BASE_FOLDER = './all-dogs'
 LABEL_BASE_FOLDER = './Annotation'
 OUTPUT_ZIP_NAME = './images.zip'
 
