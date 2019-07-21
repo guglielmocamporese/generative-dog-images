@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 ################################
 # Parse XML
 ################################
+
 def parse_xml(xml_path):
     tree = ET.parse(xml_path)
     root = tree.getroot()

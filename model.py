@@ -5,8 +5,10 @@
 import numpy as np
 import tensorflow as tf
 import time
+
+# Custom imports
 from utils import time2str
-from hyperparameters import *
+from params import *
 
 
 ################################
@@ -115,25 +117,11 @@ class GAN(object):
         return D_loss, G_loss, disc_step, gen_step
         
     def train(self, feed, epochs=1):
+    	
         def get_iterations(epoch):
-            
-            # Linear iterations
-            #D_iter = 100 - (epoch - 1)
-            #G_iter = epoch
-            #if (epoch < 5) or (epoch % 10 == 0):
-            #    D_iter = 100
-            #else:
-            #    D_iter = 5
-            #if epoch <= 30:
-            #    D_iter = 5
-            #    G_iter = 1
-            #else:
-            #    D_iter = 1
-            #    G_iter = 10
             D_iter = 5
             G_iter = 1
             return D_iter, G_iter
-            #return D_iter if D_iter > 0 else 1, G_iter if G_iter > 0 else 1
         
         # Saver for saving the model
         self.saver = tf.train.Saver()
@@ -205,6 +193,7 @@ class GAN(object):
 
                 # Save the model
                 self.saver.save(sess, self.name)
+
         print('Train finished!')
         
     def generate(self, noise=None, num_images=16, seed=None):

@@ -7,7 +7,9 @@ import numpy as np
 import cv2
 from zipfile import ZipFile
 from tqdm import tqdm
-from hyperparameters import *
+
+# Custom imports
+from params import *
 from feeder import Feeder
 from model import GAN
 
@@ -19,12 +21,12 @@ from model import GAN
 if __name__ == '__main__':
 	
 	# Create and train the GAN 
-	model = GAN(noise_dim=100, image_dim=64, name='gan', debug=False)
-	feed = Feeder('./Images', './Annotation', batch_size=BATCH_SIZE)
+	model = GAN(noise_dim=NOISE_DIM, image_dim=IMAGE_DIM, name='gan', debug=False)
+	feed = Feeder(IMAGES_BASE_FOLDER, LABEL_BASE_FOLDER, batch_size=BATCH_SIZE)
 	model.train(feed, epochs=EPOCHS)
 
 	# Save submission
-	with ZipFile('images.zip', 'w') as zip:
+	with ZipFile(OUTPUT_ZIP_NAME, 'w') as zip:
 		batch_size = 100
 		num_batches = int(10000 / batch_size)
 		for idx_batch in tqdm(range(num_batches), desc='Writing test images'):
