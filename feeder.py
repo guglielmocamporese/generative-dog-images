@@ -6,6 +6,8 @@ import os
 import numpy as np
 import cv2
 from utils import parse_xml
+from tqdm import tqdm
+import math
 
 
 ################################
@@ -30,7 +32,11 @@ class Feeder(object):
     def get_xml_paths(self):
         xml_paths = []
         for dog_class in sorted(os.listdir(self.attr_base_folder)):
+            if dog_class == '.DS_Store':
+                continue
             for xml_name in sorted(os.listdir(os.path.join(self.attr_base_folder, dog_class))):
+                if xml_name == '.DS_Store':
+                    continue
                 xml_path = os.path.abspath(os.path.join(self.attr_base_folder, dog_class, xml_name))
                 xml_paths.append(xml_path)
         return xml_paths
@@ -44,7 +50,7 @@ class Feeder(object):
             
             # Load and preprocess image
             try:
-                image_path = os.path.join(self.image_base_folder, '{}.jpg'.format(xml_dict['filename']))
+                image_path = os.path.join(self.image_base_folder, 'n{}-{}'.format(xml_dict['folder'], xml_dict['name']), '{}.jpg'.format(xml_dict['filename']))
                 image = cv2.imread(image_path, -1)
                 image = self.preporcess_image(image, xml_dict)
                 images.append(image)

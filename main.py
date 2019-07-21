@@ -6,6 +6,7 @@ import os
 import numpy as np
 import cv2
 import zipfile
+from tqdm import tqdm
 from hyperparameters import *
 from feeder import Feeder
 from model import GAN
@@ -19,7 +20,7 @@ if __name__ == '__main__':
 	
 	# Create and train the GAN 
 	model = GAN(noise_dim=100, image_dim=64, name='gan', debug=False)
-	feed = Feeder('../input/all-dogs/all-dogs/', '../input/annotation/Annotation', batch_size=BATCH_SIZE)
+	feed = Feeder('./Images', './Annotation', batch_size=BATCH_SIZE)
 	model.train(feed, epochs=EPOCHS)
 
 	# Save submission
