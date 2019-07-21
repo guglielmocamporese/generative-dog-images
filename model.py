@@ -5,6 +5,7 @@
 import numpy as np
 import tensorflow as tf
 import time
+import matplotlib.pyplot as plt
 
 # Custom imports
 from utils import time2str
@@ -117,7 +118,7 @@ class GAN(object):
         return D_loss, G_loss, disc_step, gen_step
         
     def train(self, feed, epochs=1):
-    	
+
         def get_iterations(epoch):
             D_iter = 5
             G_iter = 1
